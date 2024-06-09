@@ -14,6 +14,8 @@ import 'package:stacked/stacked.dart';
 import '../default_text_field.dart';
 
 class AddContactForm extends StatefulWidget {
+  static const String screenName = 'addContact';
+
   const AddContactForm({super.key});
 
   @override
@@ -21,7 +23,6 @@ class AddContactForm extends StatefulWidget {
 }
 
 class _AddContactFormState extends State<AddContactForm> {
-
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
   var nickNameController = TextEditingController();
@@ -33,158 +34,167 @@ class _AddContactFormState extends State<AddContactForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: AppDimens.margin1_5,
-            bottom: AppDimens.margin3
-          ),
-          child: Row(
-            children: [
-              Text('Add Contact', style: AppStyles.titleStyle,),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(CupertinoIcons.clear_circled_solid),
-                onPressed: () {
-                  context.pop();
-                },
-              ),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Ajouter un contact',
+          style: AppStyles.titleStyle,
         ),
-        ViewModelBuilder<ContactViewModel>.reactive(
+        actions: [
+          IconButton(
+            icon: const Icon(CupertinoIcons.clear_circled_solid),
+            onPressed: () {
+              context.pop();
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppDimens.margin2),
+        child: ViewModelBuilder<ContactViewModel>.reactive(
             viewModelBuilder: () => ContactViewModel(),
             disposeViewModel: false,
             builder: (context, viewModel, _) {
-            return Form(
-              key: _formKey,
-              child: AutofillGroup(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Gap(AppDimens.margin6_5),
-                    DefaultTextField(
-                      controller: firstNameController,
-                      onChanged: viewModel.updateFirstName,
-                      hint: viewModel.hintFirstName,
-                      validator: (v) => viewModel.validateFirstname(v),
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: lastNameController,
-                      onChanged: viewModel.updateLastName,
-                      hint: viewModel.hintLastName,
-                      validator: (v) => viewModel.validateLastname(v),
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: nickNameController,
-                      onChanged: viewModel.updateNickName,
-                      hint: viewModel.hintNickName,
-                      validator: (v) => viewModel.validateNickname(v),
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: emailController,
-                      onChanged: viewModel.updateEmail,
-                      hint: viewModel.hintEmail,
-                      validator: (v) => viewModel.validateEmail(v),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: phoneController,
-                      onChanged: viewModel.updatePhone,
-                      hint: viewModel.hintPhone,
-                      keyboardType: TextInputType.phone,
-                      validator: (v) => viewModel.validatePhone(v),
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: notesController,
-                      onChanged: viewModel.updateNotes,
-                      hint: viewModel.hintNotes,
-                      maxLines: 3,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    Text('Groups', style: AppStyles.mediumStyle,),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+              return Form(
+                key: _formKey,
+                child: AutofillGroup(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Gap(AppDimens.margin1),
+                      DefaultTextField(
+                        controller: firstNameController,
+                        onChanged: viewModel.updateFirstName,
+                        hint: viewModel.hintFirstName,
+                        validator: (v) => viewModel.validateFirstname(v),
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: lastNameController,
+                        onChanged: viewModel.updateLastName,
+                        hint: viewModel.hintLastName,
+                        validator: (v) => viewModel.validateLastname(v),
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: nickNameController,
+                        onChanged: viewModel.updateNickName,
+                        hint: viewModel.hintNickName,
+                        //validator: (v) => viewModel.validateNickname(v),
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: emailController,
+                        onChanged: viewModel.updateEmail,
+                        hint: viewModel.hintEmail,
+                        validator: (v) => viewModel.validateEmail(v),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: phoneController,
+                        onChanged: viewModel.updatePhone,
+                        hint: viewModel.hintPhone,
+                        keyboardType: TextInputType.phone,
+                        validator: (v) => viewModel.validatePhone(v),
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: notesController,
+                        onChanged: viewModel.updateNotes,
+                        hint: viewModel.hintNotes,
+                        maxLines: 3,
+                      ),
+                      const Gap(AppDimens.margin2),
+                      Text(
+                        'Groupes',
+                        style: AppStyles.mediumStyle,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ...Group.values.map((group) => Row(
+                                  children: [
+                                    CupertinoCheckbox(
+                                      value: viewModel.groups.contains(group),
+                                      activeColor: AppColors.primary,
+                                      onChanged: (value) {
+                                        viewModel.updateGroup(group);
+                                      },
+                                    ),
+                                    Text(
+                                        group.inFrench.capitalizeFirstLetter()),
+                                    const Gap(AppDimens.margin2)
+                                  ],
+                                )),
+                          ],
+                        ),
+                      ),
+                      const Gap(AppDimens.margin2),
+                      Row(
                         children: [
-                          ...Group.values.map((group) => Row(
-                            children: [
-                              CupertinoCheckbox(
-                                value: viewModel.groups.contains(group),
-                                activeColor: AppColors.primary,
-                                onChanged: (value) {
-                                  viewModel.updateGroup(group);
-                                },
-                              ),
-                              Text(group.name.capitalizeFirstLetter()),
-                              const Gap(AppDimens.margin2)
-                            ],
-                          )),
+                          Text(
+                            'Relation',
+                            style: AppStyles.mediumStyle,
+                          ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppDimens.margin1_5),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(AppDimens.margin1),
+                              color: AppColors.neutral100,
+                            ),
+                            child: DropdownButton<Relationship>(
+                              underline: const SizedBox(),
+                              elevation: 2,
+                              icon: const Icon(
+                                  CupertinoIcons.chevron_up_chevron_down),
+                              items: Relationship.values
+                                  .map((Relationship relationship) {
+                                return DropdownMenuItem<Relationship>(
+                                  value: relationship,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: AppDimens.margin1_5),
+                                    child: Text(relationship.inFrench),
+                                  ),
+                                );
+                              }).toList(),
+                              value: viewModel.relationship,
+                              borderRadius:
+                                  BorderRadius.circular(AppDimens.margin1),
+                              hint: const Text("Selectionner"),
+                              onChanged: (value) {
+                                viewModel.updateRelationship(value);
+                              },
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    const Gap(AppDimens.margin2),
-                    Row(
-                      children: [
-                        Text('Relationship', style: AppStyles.mediumStyle,),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: AppDimens.margin1_5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppDimens.margin1),
-                            color: AppColors.neutral100,
-                          ),
-                          child: DropdownButton<Relationship>(
-                            underline: const SizedBox(),
-                            elevation: 2,
-                            icon: const Icon(CupertinoIcons.chevron_up_chevron_down),
-                            items: Relationship.values.map((Relationship relationship) {
-                              return DropdownMenuItem<Relationship>(
-                                value: relationship,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: AppDimens.margin1_5),
-                                  child: Text(relationship.name.capitalizeFirstLetter()),
-                                ),
-                              );
-                            }).toList(),
-                            value: viewModel.relationship,
-                            borderRadius: BorderRadius.circular(AppDimens.margin1),
-                            hint: const Text("Select"),
-                            onChanged: (value) {
-                              viewModel.updateRelationship(value);
-                            },
-                          ),
+                      const Gap(AppDimens.margin3),
+                      SizedBox(
+                        width: double.infinity,
+                        child: PrimaryButton(
+                          label: 'Enregistrer',
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              viewModel.addContact();
+                              context.pop();
+                            }
+                          },
                         ),
-                      ],
-                    ),
-                    const Gap(AppDimens.margin3),
-                    SizedBox(
-                      width: double.infinity,
-                      child: PrimaryButton(
-                        label: 'Save',
-                        onPressed: () {
-                          if(_formKey.currentState!.validate()) {
-                            viewModel.addContact();
-                            context.pop();
-                          }
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
-        ),
-      ],
+              );
+            }),
+      ),
     );
   }
 }

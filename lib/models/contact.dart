@@ -61,3 +61,41 @@ enum Relationship {
   @HiveField(5)
   other,
 }
+
+// Extension to add French translations for Group enum
+extension GroupTranslations on Group {
+  String get inFrench {
+    switch (this) {
+      case Group.family:
+        return 'Famille';
+      case Group.friends:
+        return 'Amis';
+      case Group.colleagues:
+        return 'Collègues';
+      default:
+        return '';
+    }
+  }
+}
+
+// Extension to add French translations for Relationship enum
+extension RelationshipTranslations on Relationship {
+  String get inFrench {
+    switch (this) {
+      case Relationship.friend:
+        return 'Ami(e)';
+      case Relationship.brother:
+        return 'Frère';
+      case Relationship.sister:
+        return 'Sœur';
+      case Relationship.parent:
+        return 'Parent';
+      case Relationship.spouse:
+        return 'Conjoint(e)';
+      case Relationship.other:
+        return 'Autre';
+      default:
+        return '';
+    }
+  }
+}

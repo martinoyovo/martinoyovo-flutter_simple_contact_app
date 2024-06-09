@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_contact_app/constants/app_colors.dart';
 import 'package:simple_contact_app/constants/app_dimens.dart';
@@ -8,17 +7,21 @@ import 'package:simple_contact_app/models/contact.dart';
 class ContactCard extends StatelessWidget {
   final Contact contact;
   final Function() onTap;
+  final Function() onTapTrailing;
   const ContactCard({
     super.key,
     required this.contact,
-    required this.onTap
+    required this.onTap,
+    required this.onTapTrailing
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onTap,
-      contentPadding: EdgeInsets.zero,
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 6
+      ),
       leading: Container(
         height: AppDimens.avatarSize,
         width: AppDimens.avatarSize,
@@ -33,10 +36,12 @@ class ContactCard extends StatelessWidget {
           )
         ),
       ),
-      trailing: const Icon(
-        CupertinoIcons.chevron_right_circle_fill,
-        color: AppColors.neutral200,
-        size: AppDimens.miniIconSize,
+      trailing: InkWell(
+        onTap: onTapTrailing,
+        child: const Icon(
+          Icons.more_vert,
+          size: AppDimens.miniIconSize,
+        ),
       ),
       title: Text(contact.firstname.toString(),
         style: AppStyles.cardTitleStyle,

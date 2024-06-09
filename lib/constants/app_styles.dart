@@ -85,6 +85,20 @@ class AppStyles {
     surfaceTintColor: AppColors.neutral500,
   );
 
+  static final outlinedButtonStyle = TextButton.styleFrom(
+    elevation: 0,
+    textStyle: AppStyles.buttonTextStyle,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppDimens.margin1),
+      side: const BorderSide(
+        color: AppColors.primary,
+        width: 2.0,
+      )
+    ),
+    backgroundColor: Colors.transparent,
+    //surfaceTintColor: AppColors.neutral500,
+  );
+
   static final deleteButtonStyle = OutlinedButton.styleFrom(
     foregroundColor: AppColors.redColor,
     textStyle: AppStyles.buttonTextStyle,

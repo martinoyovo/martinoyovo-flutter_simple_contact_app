@@ -21,6 +21,6 @@ class AppColors {
   static const Color circularChartExtraNeutral = Color.fromRGBO(190, 197, 199, 1.0);
 
   // Green
-  static const Color primary = Colors.blue;
+  static const Color primary = Colors.black;
   static const Color redColor = Colors.red;
 }

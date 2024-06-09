@@ -18,13 +18,13 @@ class ContactViewModel extends ReactiveViewModel {
 
   Contact get selectedContact => _contactService.selectedContact;
 
-  get hintFirstName => 'First Name';
-  get hintLastName => 'Last Name';
-  get hintNickName => 'Nick Name';
+  get hintFirstName => 'Prénom';
+  get hintLastName => 'Nom de famille';
+  get hintNickName => 'Surnom';
   get hintEmail => 'Email';
-  get hintPhone => 'Phone No.';
+  get hintPhone => 'Numéro de téléphone';
   get hintNotes => 'Notes';
-  get hintSearch => 'Search Contacts';
+  get hintSearch => 'Rechercher des contacts';
 
   String? _firstName;
   String? _lastName;
@@ -64,7 +64,7 @@ class ContactViewModel extends ReactiveViewModel {
   }
 
   void updateRelationship(Relationship? relationship) {
-    if(relationship != null) {
+    if (relationship != null) {
       _contactService.updateRelationship(relationship);
     }
   }
@@ -109,27 +109,27 @@ class ContactViewModel extends ReactiveViewModel {
   }
 
   String? validateFirstname(String? firstname) {
-    if(firstname != null && firstname.isNotEmpty) return null;
-    return "First name is not empty";
+    if (firstname != null && firstname.isNotEmpty) return null;
+    return "Le prénom ne doit pas être vide";
   }
 
   String? validateLastname(String? lastname) {
-    if(lastname != null && lastname.isNotEmpty) return null;
-    return "Last name is not empty";
+    if (lastname != null && lastname.isNotEmpty) return null;
+    return "Le nom de famille ne doit pas être vide";
   }
 
   String? validateNickname(String? nickname) {
-    if(nickname != null && nickname.isNotEmpty) return null;
-    return "Nickname is not empty";
+    if (nickname != null && nickname.isNotEmpty) return null;
+    return "Le surnom ne doit pas être vide";
   }
 
   String? validatePhone(String? phone) {
-    if(phone != null && phone.isNotEmpty) return null;
-    return "Phone number is not empty";
+    if (phone != null && phone.isNotEmpty) return null;
+    return "Le numéro de téléphone ne doit pas être vide";
   }
 
   String? validateEmail(String? email) {
-    if(email != null && email.isNotEmpty) return null;
-    return "Email is not empty";
+    if (email != null && email.isNotEmpty) return null;
+    return "L'email ne doit pas être vide";
   }
 }
