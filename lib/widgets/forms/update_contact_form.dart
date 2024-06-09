@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_contact_app/constants/app_dimens.dart';
 import 'package:simple_contact_app/constants/app_styles.dart';
 import 'package:simple_contact_app/view_models/contact_view_model.dart';
+import 'package:simple_contact_app/widgets/contact_outlined_button.dart';
 import 'package:simple_contact_app/widgets/primary_button.dart';
 import 'package:stacked/stacked.dart';
 
@@ -46,20 +50,12 @@ class _UpdateContactFormState extends State<UpdateContactForm> {
           child: Padding(
             padding: const EdgeInsets.only(
                 left: AppDimens.margin1_5, bottom: AppDimens.margin3),
-            child: Row(
-              children: [
-                Text(
-                  'Mettre à jour le contact',
-                  style: AppStyles.titleStyle,
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(CupertinoIcons.clear_circled_solid),
-                  onPressed: () {
-                    context.pop();
-                  },
-                ),
-              ],
+            child: Center(
+              child: Text(
+                'Mettre à jour',
+                style: AppStyles.titleStyle,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
@@ -68,40 +64,95 @@ class _UpdateContactFormState extends State<UpdateContactForm> {
             disposeViewModel: false,
             builder: (context, viewModel, _) {
               return AutofillGroup(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Gap(AppDimens.margin6_5),
-                    DefaultTextField(
-                      controller: firstNameController,
-                      onChanged: viewModel.updateFirstName,
-                      hint: viewModel.hintFirstName,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: lastNameController,
-                      onChanged: viewModel.updateLastName,
-                      hint: viewModel.hintLastName,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: phoneController,
-                      onChanged: viewModel.updatePhone,
-                      hint: viewModel.hintPhone,
-                      keyboardType: TextInputType.phone,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    SizedBox(
-                      width: double.infinity,
-                      child: PrimaryButton(
-                        label: 'Mettre à jour',
-                        onPressed: () {
-                          viewModel.updateContact();
-                          context.pop();
-                        },
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Gap(AppDimens.margin6_5),
+                      const Gap(AppDimens.margin1),
+                      Center(
+                        child: Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                            Border.all(color: Colors.grey, width: 1.5),
+                          ),
+                          child: viewModel.cachedProfileImage.isEmpty
+                              ? Icon(
+                            Icons.person_2_rounded,
+                            color: Colors.grey.shade400,
+                            size: 100,
+                          ) : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.file(
+                              File(viewModel.cachedProfileImage),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      const Gap(AppDimens.margin2),
+                      Center(
+                        child: Transform.scale(
+                          scale: 0.85,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: ContactOutlinedButton(
+                              label: 'Ajouter une image',
+                              onPressed: viewModel.uploadImage,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: firstNameController,
+                        onChanged: viewModel.updateFirstName,
+                        hint: viewModel.hintFirstName,
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: lastNameController,
+                        onChanged: viewModel.updateLastName,
+                        hint: viewModel.hintLastName,
+                      ),
+                      const Gap(AppDimens.margin2),
+                      DefaultTextField(
+                        controller: phoneController,
+                        onChanged: viewModel.updatePhone,
+                        hint: viewModel.hintPhone,
+                        keyboardType: TextInputType.phone,
+                      ),
+                      const Gap(AppDimens.margin3),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.44,
+                            child: ContactOutlinedButton(
+                              label: 'Annuler',
+                              onPressed: () {
+                                context.pop();
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.44,
+                            child: PrimaryButton(
+                              label: 'Enregistrer',
+                              onPressed: () {
+                                viewModel.updateContact();
+                                context.pop();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Gap(AppDimens.margin1),
+                    ],
+                  ),
                 ),
               );
             })

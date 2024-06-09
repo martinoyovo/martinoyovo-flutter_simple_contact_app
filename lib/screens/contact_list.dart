@@ -70,7 +70,7 @@ class ContactList extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: AppDimens.margin2),
+                          horizontal: AppDimens.margin2),
                       itemCount: viewModel.filteredContacts.length,
                       itemBuilder: (BuildContext context, int index) {
                         final contact = viewModel.filteredContacts[index];
@@ -138,13 +138,13 @@ class ContactList extends StatelessWidget {
                                             child: PrimaryButton(
                                               label: 'Modifier',
                                               onPressed: () {
-                                                //viewModel.setContact(contact);
-                                                //context.push('/contact');
                                                 context.pop();
+                                                viewModel.setContact(contact);
+                                                //context.push('/contact');
                                                 DialogHelper().showBottomSheet(
                                                     context: context,
-                                                    child: UpdateContactForm(viewModel)
-                                                );
+                                                    child: UpdateContactForm(
+                                                        viewModel));
                                               },
                                             )),
                                         const Gap(AppDimens.margin2),

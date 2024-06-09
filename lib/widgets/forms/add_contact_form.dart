@@ -56,31 +56,27 @@ class _AddContactFormState extends State<AddContactForm> {
                     children: [
                       const Gap(AppDimens.margin1),
                       Center(
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: 140,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.grey, width: 1.5),
-                              ),
-                              child: viewModel.cachedProfileImage.isEmpty
-                                  ? Icon(
-                                      Icons.person_2_rounded,
-                                      color: Colors.grey.shade400,
-                                      size: 100,
-                                    )
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image.file(
-                                        File(viewModel.cachedProfileImage),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                        child: Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                            Border.all(color: Colors.grey, width: 1.5),
+                          ),
+                          child: viewModel.cachedProfileImage.isEmpty
+                              ? Icon(
+                            Icons.person_2_rounded,
+                            color: Colors.grey.shade400,
+                            size: 100,
+                          )
+                              : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.file(
+                              File(viewModel.cachedProfileImage),
+                              fit: BoxFit.cover,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       const Gap(AppDimens.margin2),
