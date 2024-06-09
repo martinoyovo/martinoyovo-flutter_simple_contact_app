@@ -48,8 +48,8 @@ class ContactDetails extends StatelessWidget {
                       text: "Modifier",
                       onTap: () {
                         DialogHelper().showBottomSheet(
-                            context: context,
-                            child: UpdateContactForm(viewModel)
+                          context: context,
+                          child: UpdateContactForm(viewModel)
                         );
                       }
                   ),

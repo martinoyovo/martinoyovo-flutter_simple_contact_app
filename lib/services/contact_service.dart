@@ -21,6 +21,9 @@ class ContactService with ListenableServiceMixin {
   final _relationship = ReactiveValue<Relationship?>(null);
   Relationship? get relationship => _relationship.value;
 
+  final _uploadedImage = ReactiveValue<String>('');
+  String get uploadedImage => _uploadedImage.value;
+
   Future<void> _init() async {
     await _loadContactsFromHive();
   }
@@ -141,5 +144,15 @@ class ContactService with ListenableServiceMixin {
   void _saveToHive() {
     Hive.box(contactsBoxName)
       .put(contactsBoxName, _contacts.value);
+  }
+
+  void setImage(String image) {
+    _uploadedImage.value = image;
+    notifyListeners();
+  }
+
+  void clearImage() {
+    _uploadedImage.value = '';
+    notifyListeners();
   }
 }

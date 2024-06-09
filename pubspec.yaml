@@ -40,6 +40,7 @@ dependencies:
   go_router: ^13.2.0
   stacked: ^3.4.2
   hive: ^2.2.3
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

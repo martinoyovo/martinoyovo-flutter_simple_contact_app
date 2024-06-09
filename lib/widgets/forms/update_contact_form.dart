@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:simple_contact_app/constants/app_colors.dart';
 import 'package:simple_contact_app/constants/app_dimens.dart';
 import 'package:simple_contact_app/constants/app_styles.dart';
-import 'package:simple_contact_app/models/contact.dart';
 import 'package:simple_contact_app/view_models/contact_view_model.dart';
 import 'package:simple_contact_app/widgets/primary_button.dart';
 import 'package:stacked/stacked.dart';
@@ -26,10 +24,7 @@ class UpdateContactForm extends StatefulWidget {
 class _UpdateContactFormState extends State<UpdateContactForm> {
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
-  late TextEditingController nickNameController;
-  late TextEditingController emailController;
   late TextEditingController phoneController;
-  late TextEditingController notesController;
 
   @override
   void initState() {
@@ -37,14 +32,8 @@ class _UpdateContactFormState extends State<UpdateContactForm> {
         TextEditingController(text: widget.viewModel.selectedContact.firstname);
     lastNameController =
         TextEditingController(text: widget.viewModel.selectedContact.lastname);
-    nickNameController =
-        TextEditingController(text: widget.viewModel.selectedContact.nickname);
-    emailController =
-        TextEditingController(text: widget.viewModel.selectedContact.email);
     phoneController =
         TextEditingController(text: widget.viewModel.selectedContact.phone);
-    notesController =
-        TextEditingController(text: widget.viewModel.selectedContact.notes);
     super.initState();
   }
 
@@ -96,98 +85,12 @@ class _UpdateContactFormState extends State<UpdateContactForm> {
                     ),
                     const Gap(AppDimens.margin2),
                     DefaultTextField(
-                      controller: nickNameController,
-                      onChanged: viewModel.updateNickName,
-                      hint: viewModel.hintNickName,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: emailController,
-                      onChanged: viewModel.updateEmail,
-                      hint: viewModel.hintEmail,
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    DefaultTextField(
                       controller: phoneController,
                       onChanged: viewModel.updatePhone,
                       hint: viewModel.hintPhone,
                       keyboardType: TextInputType.phone,
                     ),
                     const Gap(AppDimens.margin2),
-                    DefaultTextField(
-                      controller: notesController,
-                      onChanged: viewModel.updateNotes,
-                      hint: viewModel.hintNotes,
-                      maxLines: 3,
-                    ),
-                    const Gap(AppDimens.margin2),
-                    Text(
-                      'Groupes',
-                      style: AppStyles.mediumStyle,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ...Group.values.map((group) => Row(
-                              children: [
-                                CupertinoCheckbox(
-                                  value: viewModel.groups.contains(group),
-                                  activeColor: AppColors.primary,
-                                  onChanged: (value) {
-                                    viewModel.updateGroup(group);
-                                  },
-                                ),
-                                Text(group.inFrench),
-                                const Gap(AppDimens.margin2)
-                              ],
-                            )),
-                      ],
-                    ),
-                    const Gap(AppDimens.margin2),
-                    Row(
-                      children: [
-                        Text(
-                          'Relation',
-                          style: AppStyles.mediumStyle,
-                        ),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: AppDimens.margin1_5),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppDimens.margin1),
-                            color: AppColors.neutral100,
-                          ),
-                          child: DropdownButton<Relationship>(
-                            underline: const SizedBox(),
-                            elevation: 2,
-                            icon: const Icon(
-                                CupertinoIcons.chevron_up_chevron_down),
-                            items: Relationship.values
-                                .map((Relationship relationship) {
-                              return DropdownMenuItem<Relationship>(
-                                value: relationship,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: AppDimens.margin1_5),
-                                  child: Text(relationship.inFrench),
-                                ),
-                              );
-                            }).toList(),
-                            value: viewModel.relationship,
-                            borderRadius:
-                                BorderRadius.circular(AppDimens.margin1),
-                            hint: const Text("Sélectionner"),
-                            onChanged: (value) {
-                              viewModel.updateRelationship(value);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Gap(AppDimens.margin3),
                     SizedBox(
                       width: double.infinity,
                       child: PrimaryButton(

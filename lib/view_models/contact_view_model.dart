@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:simple_contact_app/locator.dart';
 import 'package:simple_contact_app/models/contact.dart';
 import 'package:simple_contact_app/services/contact_service.dart';
@@ -17,6 +18,8 @@ class ContactViewModel extends ReactiveViewModel {
   Relationship? get relationship => _contactService.relationship;
 
   Contact get selectedContact => _contactService.selectedContact;
+
+  String get cachedProfileImage => _contactService.uploadedImage;
 
   get hintFirstName => 'Prénom';
   get hintLastName => 'Nom de famille';
@@ -131,5 +134,25 @@ class ContactViewModel extends ReactiveViewModel {
   String? validateEmail(String? email) {
     if (email != null && email.isNotEmpty) return null;
     return "L'email ne doit pas être vide";
+  }
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? image;
+  bool isFieldObscured = false;
+  var profileImage = '';
+
+  Future<void> uploadImage() async  {
+    final uploadedImage = await _picker.pickImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.rear,
+    );
+
+    //cachedProfileImage = uploadedImage!.path;
+    _contactService.setImage(uploadedImage!.path);
+    notifyListeners();
+  }
+
+  void clearImage() {
+    _contactService.clearImage();
   }
 }
